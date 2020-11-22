@@ -37,7 +37,7 @@ const useStyles = makeStyles(() =>
     },
     title: {
       fontSize: 20,
-      fontWeight: 700,
+      fontWeight: 500,
       overflow: 'hidden',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',

@@ -1,5 +1,4 @@
 import { Chip, ChipProps, createStyles, makeStyles } from '@material-ui/core'
-import { AppTheme } from 'lib/AppTheme'
 import React from 'react'
 import { FilterControlProps } from './FilterControl'
 
@@ -41,7 +40,7 @@ export const ChipGroup = (props: ChipGroupProps) => {
   )
 }
 
-const useStyles = makeStyles((theme: AppTheme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     filterChip: {
       marginLeft: 8,

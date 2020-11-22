@@ -68,12 +68,21 @@ const useStyles = makeStyles((theme: AppTheme) =>
     },
     keywordChip: {
       backgroundColor: theme.palette.keyword.main,
+      '&:focus': {
+        backgroundColor: theme.palette.keyword.main,
+      },
     },
     ownerChip: {
       backgroundColor: theme.palette.owner.main,
+      '&:focus': {
+        backgroundColor: theme.palette.owner.main,
+      },
     },
     languageChip: {
       backgroundColor: theme.palette.language.main,
+      '&:focus': {
+        backgroundColor: theme.palette.language.main,
+      },
     },
   })
 )

@@ -114,7 +114,7 @@ const useStyles = makeStyles(() =>
       flexGrow: 0,
       flexShrink: 1,
       flexBasis: 'auto',
-      fontWeight: 600,
+      fontWeight: 500,
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden',

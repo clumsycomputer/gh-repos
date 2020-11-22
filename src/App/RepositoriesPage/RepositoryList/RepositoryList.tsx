@@ -65,7 +65,7 @@ export const RepositoryList = (props: RepositoryListProps) => {
       return (
         <ListNotification
           className={styles.errorNotification}
-          message={'Oops, something happened!'}
+          message={listData.errorMessage}
         />
       )
   }
@@ -109,7 +109,10 @@ type ListData =
       result: GetRepositoriesResult
     }
   | { type: 'noResults' }
-  | { type: 'error' }
+  | {
+      type: 'error'
+      errorMessage: string
+    }
 
 const getListData = (api: ListDataApi): ListData => {
   const { getRepositoriesState } = api
@@ -131,7 +134,11 @@ const getListData = (api: ListDataApi): ListData => {
   } else if (getRepositoriesState.type === 'loading') {
     return { type: 'loading' }
   } else if (getRepositoriesState.type === 'error') {
-    return { type: 'error' }
+    return {
+      type: 'error',
+      errorMessage:
+        getRepositoriesState.errorMessage || 'Oops, something happened!',
+    }
   } else {
     return { type: 'emptyFilter' }
   }

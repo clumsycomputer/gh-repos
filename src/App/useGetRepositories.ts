@@ -134,7 +134,9 @@ const fetchRepositories = (api: GetRepositoriesApi) => {
           // todo: improve error handlings
           if (
             requestError.message ===
-            'The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them.'
+              'The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them.' ||
+            requestError.message ===
+              'None of the search qualifiers apply to this search type.'
           ) {
             const emptyResults = createEmptyResults({ repositoryFilter })
             return resolve(emptyResults)

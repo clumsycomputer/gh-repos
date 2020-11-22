@@ -1,0 +1,19 @@
+name: deployClient
+on:
+  push:
+    branches: [master]
+jobs:
+  buildAndDeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: fregante/setup-git-token@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - run: yarn install
+      - run: yarn build
+      - run: yarn add -D gh-pages
+      - run: yarn gh-pages -d build

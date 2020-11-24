@@ -4,16 +4,14 @@ import { SelectField } from 'lib/components/SelectField'
 import keywordDotUrl from 'assets/dots/keyword.png'
 import ownerDotUrl from 'assets/dots/owner.png'
 import languageDotUrl from 'assets/dots/language.png'
-import { RepositoriesPageProps } from '../'
 import { FilterChips } from './FilterChips'
 import { createStyles, makeStyles, MenuItem } from '@material-ui/core'
 import { FilterField } from './FilterField'
 
-export interface FilterControlProps
-  extends Pick<
-    RepositoriesPageProps,
-    'repositoryFilter' | 'setRepositoryFilter'
-  > {}
+export interface FilterControlProps {
+  repositoryFilter: RepositoryFilter
+  setRepositoryFilter: React.Dispatch<React.SetStateAction<RepositoryFilter>>
+}
 
 export const FilterControl = (props: FilterControlProps) => {
   const { repositoryFilter, setRepositoryFilter } = props
@@ -32,7 +30,7 @@ export const FilterControl = (props: FilterControlProps) => {
           />
           <FilterField
             className={styles.ownerLabel}
-            filterKey={'users'}
+            filterKey={'owners'}
             label={'Owner'}
             helperText={' '}
             repositoryFilter={repositoryFilter}

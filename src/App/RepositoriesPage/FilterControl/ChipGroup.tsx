@@ -1,11 +1,11 @@
-import { Chip, ChipProps, createStyles, makeStyles } from '@material-ui/core'
 import React from 'react'
+import { Chip, ChipProps, createStyles, makeStyles } from '@material-ui/core'
 import { FilterControlProps } from './FilterControl'
 
 export interface ChipGroupProps extends FilterControlProps {
   filterKey: keyof Pick<
     FilterControlProps['repositoryFilter'],
-    'keywords' | 'users' | 'languages'
+    'keywords' | 'owners' | 'languages'
   >
   ChipProps: Pick<ChipProps, 'className'>
 }

@@ -3,18 +3,14 @@ import { FilterControlProps } from './FilterControl'
 import { createStyles, makeStyles } from '@material-ui/core'
 import { ChipGroup } from './ChipGroup'
 import { AppTheme } from 'lib/AppTheme'
+import { isRepositoryFilterEmpty } from 'lib/models/RepositoryFilter'
 
 export interface FilterChipsProps extends FilterControlProps {}
 
 export const FilterChips = (props: FilterChipsProps) => {
   const { repositoryFilter, setRepositoryFilter } = props
   const filterIsEmpty = useMemo(
-    () =>
-      !(
-        repositoryFilter.keywords.length ||
-        repositoryFilter.users.length ||
-        repositoryFilter.languages.length
-      ),
+    () => isRepositoryFilterEmpty(repositoryFilter),
     [repositoryFilter]
   )
   const styles = useStyles()
@@ -29,7 +25,7 @@ export const FilterChips = (props: FilterChipsProps) => {
         }}
       />
       <ChipGroup
-        filterKey={'users'}
+        filterKey={'owners'}
         repositoryFilter={repositoryFilter}
         setRepositoryFilter={setRepositoryFilter}
         ChipProps={{

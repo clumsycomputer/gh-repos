@@ -1,11 +1,10 @@
+import React, { useState } from 'react'
 import { createStyles, makeStyles } from '@material-ui/core'
 import { AppTheme } from 'lib/AppTheme'
 import {
   AdornedTextField,
   AdornedTextFieldProps,
 } from 'lib/components/AdornedTextField'
-import React from 'react'
-import { useState } from 'react'
 import { FilterControlProps } from './FilterControl'
 
 export interface FilterFieldProps
@@ -15,7 +14,7 @@ export interface FilterFieldProps
     FilterControlProps {
   filterKey: keyof Pick<
     FilterControlProps['repositoryFilter'],
-    'keywords' | 'users' | 'languages'
+    'keywords' | 'owners' | 'languages'
   >
 }
 

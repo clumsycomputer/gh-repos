@@ -1,15 +1,21 @@
 import React from 'react'
-import { GetRepositoriesResult } from '../../useGetRepositories'
-import { RepositoriesPageProps } from '../'
+import { createStyles, makeStyles } from '@material-ui/core'
 import { RepositoryFilter } from 'lib/models/RepositoryFilter'
+import { AppTheme } from 'lib/AppTheme'
+import { AsyncState } from 'lib/hooks/useAsyncState'
+import { Repository } from 'lib/models/Repository'
+import { GetRepositoriesResult } from '../utils/useGetRepositories'
+import { getListData } from './utils/getListData'
 import { RepositoryCard } from './RepositoryCard/RepositoryCard'
 import { PaginationControl } from './PaginationControl'
 import { ListNotification } from './ListNotification'
-import { createStyles, makeStyles } from '@material-ui/core'
-import { AppTheme } from 'lib/AppTheme'
 
-export interface RepositoryListProps
-  extends Omit<RepositoriesPageProps, 'focusedRepository'> {}
+export interface RepositoryListProps {
+  getRepositoriesState: AsyncState<GetRepositoriesResult>
+  repositoryFilter: RepositoryFilter
+  setRepositoryFilter: React.Dispatch<React.SetStateAction<RepositoryFilter>>
+  setFocusedRepository: React.Dispatch<React.SetStateAction<Repository | null>>
+}
 
 export const RepositoryList = (props: RepositoryListProps) => {
   const {
@@ -97,56 +103,3 @@ const useStyles = makeStyles((theme: AppTheme) =>
     },
   })
 )
-
-interface ListDataApi
-  extends Pick<RepositoryListProps, 'getRepositoriesState'> {}
-
-type ListData =
-  | { type: 'emptyFilter' }
-  | { type: 'loading' }
-  | {
-      type: 'data'
-      result: GetRepositoriesResult
-    }
-  | { type: 'noResults' }
-  | {
-      type: 'error'
-      errorMessage: string
-    }
-
-const getListData = (api: ListDataApi): ListData => {
-  const { getRepositoriesState } = api
-  if (getRepositoriesState.result?.page.items.length) {
-    return {
-      type: 'data',
-      result: getRepositoriesState.result,
-    }
-  } else if (
-    getRepositoriesState.result?.page.items.length === 0 &&
-    isRepositoryFilterEmpty(getRepositoriesState.result?.filter)
-  ) {
-    return { type: 'emptyFilter' }
-  } else if (
-    getRepositoriesState.result?.page.items.length === 0 &&
-    !isRepositoryFilterEmpty(getRepositoriesState.result?.filter)
-  ) {
-    return { type: 'noResults' }
-  } else if (getRepositoriesState.type === 'loading') {
-    return { type: 'loading' }
-  } else if (getRepositoriesState.type === 'error') {
-    return {
-      type: 'error',
-      errorMessage:
-        getRepositoriesState.errorMessage || 'Oops, something happened!',
-    }
-  } else {
-    return { type: 'emptyFilter' }
-  }
-}
-
-const isRepositoryFilterEmpty = (someRepositoryFilter: RepositoryFilter) =>
-  !(
-    someRepositoryFilter.keywords.length ||
-    someRepositoryFilter.users.length ||
-    someRepositoryFilter.languages.length
-  )

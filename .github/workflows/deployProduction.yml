@@ -1,4 +1,4 @@
-name: deployClient
+name: deployProduction
 on:
   push:
     branches: [master]

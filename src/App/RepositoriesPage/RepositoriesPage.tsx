@@ -1,27 +1,49 @@
-import React from 'react'
-import { RepositoryFilter } from 'lib/models/RepositoryFilter'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import { Page } from 'lib/components/Page'
-import { FilterControl } from './FilterControl'
-import { RepositoryList } from './RepositoryList'
-import { AsyncState } from 'lib/hooks/useAsyncState'
-import { GetRepositoriesResult } from '../useGetRepositories'
 import { TitleBar } from 'lib/components/TitleBar'
 import { Repository } from 'lib/models/Repository'
+import { RepositoryFilter } from 'lib/models/RepositoryFilter'
+import { useManageBodyScroll } from 'lib/hooks/useManageBodyScroll'
+import { useGetRepositories } from './utils/useGetRepositories'
+import { serializeRepositoryFilter } from './utils/serializeRepositoryFilter'
+import { deserializeRepositoryFilter } from './utils/deserializeRepositoryFilter'
+import { FilterControl } from './FilterControl'
+import { RepositoryList } from './RepositoryList'
+import { RepositoryDialog } from './RepositoryDialog'
 
-export interface RepositoriesPageProps {
-  getRepositoriesState: AsyncState<GetRepositoriesResult>
-  repositoryFilter: RepositoryFilter
-  setRepositoryFilter: React.Dispatch<React.SetStateAction<RepositoryFilter>>
-  setFocusedRepository: React.Dispatch<React.SetStateAction<Repository | null>>
-}
-
-export const RepositoriesPage = (props: RepositoriesPageProps) => {
-  const {
-    repositoryFilter,
-    setRepositoryFilter,
-    getRepositoriesState,
-    setFocusedRepository,
-  } = props
+export const RepositoriesPage = () => {
+  const history = useHistory()
+  const location = useLocation()
+  const initialRepositoryFilter = useMemo(
+    () =>
+      deserializeRepositoryFilter({
+        locationSearch: location.search,
+      }),
+    [location.search]
+  )
+  const [repositoryFilter, setRepositoryFilter] = useState<RepositoryFilter>(
+    initialRepositoryFilter
+  )
+  const [getRepositories, getRepositoriesState] = useGetRepositories()
+  const [focusedRepository, setFocusedRepository] = useState<Repository | null>(
+    null
+  )
+  useEffect(() => {
+    getRepositories({ repositoryFilter })
+  }, [repositoryFilter, getRepositories])
+  useEffect(() => {
+    const locationSearchString = new URLSearchParams(location.search).toString()
+    const filterSearchString = serializeRepositoryFilter({ repositoryFilter })
+    if (locationSearchString !== filterSearchString) {
+      history.replace({
+        search: filterSearchString,
+      })
+    }
+  }, [repositoryFilter, history, location.search])
+  useManageBodyScroll({
+    scrollDisabled: Boolean(focusedRepository),
+  })
   return (
     <Page>
       <TitleBar title={'Repositories'} />
@@ -33,6 +55,10 @@ export const RepositoriesPage = (props: RepositoriesPageProps) => {
         getRepositoriesState={getRepositoriesState}
         repositoryFilter={repositoryFilter}
         setRepositoryFilter={setRepositoryFilter}
+        setFocusedRepository={setFocusedRepository}
+      />
+      <RepositoryDialog
+        focusedRepository={focusedRepository}
         setFocusedRepository={setFocusedRepository}
       />
     </Page>

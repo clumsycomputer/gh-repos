@@ -1,7 +1,7 @@
-import { useAsyncState } from '../lib/hooks/useAsyncState'
-import { DataPage } from '../lib/models/DataPage'
-import { Repository } from '../lib/models/Repository'
-import { RepositoryFilter } from '../lib/models/RepositoryFilter'
+import { useAsyncState } from 'lib/hooks/useAsyncState'
+import { DataPage } from 'lib/models/DataPage'
+import { Repository } from 'lib/models/Repository'
+import { RepositoryFilter } from 'lib/models/RepositoryFilter'
 
 export interface GetRepositoriesApi {
   repositoryFilter: RepositoryFilter
@@ -22,7 +22,7 @@ const fetchRepositories = (api: GetRepositoriesApi) => {
       q: `${repositoryFilter.keywords.reduce(
         (searchKeywords, someKeyword) => `${searchKeywords}${someKeyword} `,
         ''
-      )} ${repositoryFilter.users.reduce(
+      )} ${repositoryFilter.owners.reduce(
         (userFilters, someUser) => `${userFilters}user:${someUser} `,
         ''
       )} ${repositoryFilter.languages.reduce(
@@ -127,7 +127,9 @@ const fetchRepositories = (api: GetRepositoriesApi) => {
           } else {
             // todo: improve error handlings
             // rate limit exceeded
-            return Promise.reject({ message: responseData.message })
+            return Promise.reject({
+              message: responseData.message,
+            })
           }
         })
         .catch((requestError: any) => {

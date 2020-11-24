@@ -1,0 +1,24 @@
+name: deployDevelopment
+on:
+  push:
+    branches: [develop]
+jobs:
+  buildAndDeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - run: yarn install
+      - run: yarn add node-jq
+      - run: echo $(./node_modules/node-jq/bin/jq '.homepage = "https://clumsycomputer.github.io/_gh-repos-dev/"' package.json) > package.json
+      - run: yarn build
+      - uses: cpina/github-action-push-to-another-repository@master
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_CD_TOKEN }}
+        with:
+          source-directory: 'build'
+          destination-github-username: 'clumsycomputer'
+          destination-repository-name: '_gh-repos-dev'
+          user-email: clumsycomputer@gmail.com

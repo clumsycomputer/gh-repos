@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/gh-repos/static/css/main.940e7869.chunk.css",
-    "main.js": "/gh-repos/static/js/main.a50824d6.chunk.js",
-    "main.js.map": "/gh-repos/static/js/main.a50824d6.chunk.js.map",
+    "main.js": "/gh-repos/static/js/main.ba049cd4.chunk.js",
+    "main.js.map": "/gh-repos/static/js/main.ba049cd4.chunk.js.map",
     "runtime-main.js": "/gh-repos/static/js/runtime-main.509affad.js",
     "runtime-main.js.map": "/gh-repos/static/js/runtime-main.509affad.js.map",
-    "static/js/2.ac288526.chunk.js": "/gh-repos/static/js/2.ac288526.chunk.js",
-    "static/js/2.ac288526.chunk.js.map": "/gh-repos/static/js/2.ac288526.chunk.js.map",
+    "static/js/2.06eb8145.chunk.js": "/gh-repos/static/js/2.06eb8145.chunk.js",
+    "static/js/2.06eb8145.chunk.js.map": "/gh-repos/static/js/2.06eb8145.chunk.js.map",
     "index.html": "/gh-repos/index.html",
     "static/css/main.940e7869.chunk.css.map": "/gh-repos/static/css/main.940e7869.chunk.css.map",
-    "static/js/2.ac288526.chunk.js.LICENSE.txt": "/gh-repos/static/js/2.ac288526.chunk.js.LICENSE.txt"
+    "static/js/2.06eb8145.chunk.js.LICENSE.txt": "/gh-repos/static/js/2.06eb8145.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.509affad.js",
-    "static/js/2.ac288526.chunk.js",
+    "static/js/2.06eb8145.chunk.js",
     "static/css/main.940e7869.chunk.css",
-    "static/js/main.a50824d6.chunk.js"
+    "static/js/main.ba049cd4.chunk.js"
   ]
 }

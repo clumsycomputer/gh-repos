@@ -23,6 +23,7 @@ export const ChipGroup = (props: ChipGroupProps) => {
           onDelete={() => {
             setRepositoryFilter({
               ...repositoryFilter,
+              page: 1,
               [filterKey]: repositoryFilter[filterKey].reduce<string[]>(
                 (result, someFilterValue) => {
                   if (someFilterValue !== filterValue) {

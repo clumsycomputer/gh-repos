@@ -17,13 +17,12 @@ export const isRepositoryFilterEmpty = (
 
 export interface SerializeRepositoryFilterApi {
   repositoryFilter: RepositoryFilter
-  includePage?: boolean
 }
 
 export const serializeRepositoryFilter = (
   api: SerializeRepositoryFilterApi
 ): string => {
-  const { repositoryFilter, includePage = false } = api
+  const { repositoryFilter } = api
   const searchParams = new URLSearchParams()
   maybeAppendFilterValues({
     filterKey: 'keywords',
@@ -41,9 +40,7 @@ export const serializeRepositoryFilter = (
     searchParams,
   })
   searchParams.append('sortBy', repositoryFilter.sortBy)
-  if (includePage) {
-    searchParams.append('page', `${repositoryFilter.page}`)
-  }
+  searchParams.append('page', `${repositoryFilter.page}`)
   return searchParams.toString()
 }
 
@@ -89,8 +86,7 @@ export const deserializeRepositoryFilter = (
     sortBy: ['default', 'stars'].includes(searchParams.get('sortBy') || '')
       ? (searchParams.get('sortBy') as RepositoryFilter['sortBy'])
       : 'default',
-    // page: Number(searchParams.get('page')) || 1,
-    page: 1,
+    page: Number(searchParams.get('page')) || 1,
   }
 }
 

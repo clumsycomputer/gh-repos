@@ -13,8 +13,9 @@ import {
   RepositoryFilter,
   serializeRepositoryFilter,
 } from 'lib/models/RepositoryFilter'
-import { RepositoriesPageProps } from './RepositoriesPage'
 import { AppTheme } from 'lib/AppTheme'
+import { appConfig } from 'lib/AppConfig'
+import { RepositoriesPageProps } from './RepositoriesPage'
 
 export interface GitAuthedProps
   extends Pick<RepositoriesPageProps, 'accessTokenData'> {
@@ -41,8 +42,7 @@ export const GitAuthed = (props: GitAuthedProps) => {
             redirectCallbackUrl.search = serializeRepositoryFilter({
               repositoryFilter,
             })
-            const basePath = process.env.REACT_APP_BASEPATH
-            redirectCallbackUrl.pathname = `${basePath}/auth`
+            redirectCallbackUrl.pathname = `${appConfig.basePath}/auth`
             redirectCallbackSearchParams.append(
               'redirect_uri',
               redirectCallbackUrl.toString()

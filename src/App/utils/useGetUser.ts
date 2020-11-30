@@ -12,22 +12,26 @@ export const useGetUser = () =>
 const fetchAccessToken = (api: GetUserApi) => {
   const { accessToken } = api
   return new Promise<GetUserResult>((resolve, reject) => {
-    fetch('https://api.github.com/user', {
-      headers: {
-        Accept: 'application/vnd.github.v3+json',
-        Authorization: `token ${accessToken}`,
-      },
-      cache: 'no-cache',
-    })
+    const getUser: Promise<GetUserResult> = fetch(
+      'https://api.github.com/user',
+      {
+        headers: {
+          Accept: 'application/vnd.github.v3+json',
+          Authorization: `token ${accessToken}`,
+        },
+        cache: 'no-cache',
+      }
+    )
       .then((response) => response.json())
       .then((responseData) => {
         if (responseData.message) {
-          reject(responseData.message)
+          return Promise.reject(responseData.message)
         }
-        resolve({})
+        return Promise.resolve({})
       })
-      .catch(() => {
-        reject('Oops, something happened!')
-      })
+      .catch(() => Promise.reject('Oops, something happened!'))
+    setTimeout(() => {
+      getUser.then(resolve).catch(reject)
+    }, 1500)
   })
 }

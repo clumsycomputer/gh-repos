@@ -9,6 +9,7 @@ import {
   deserializeRepositoryFilter,
 } from 'lib/models/RepositoryFilter'
 import { useManageBodyScroll } from 'lib/hooks/useManageBodyScroll'
+import { appConfig } from 'lib/AppConfig'
 import { AccessTokenData } from '../utils/getAccessTokenData'
 import { useGetRepositories } from './utils/useGetRepositories'
 import { FilterControl } from './FilterControl'
@@ -74,7 +75,7 @@ export const RepositoriesPage = (props: RepositoriesPageProps) => {
         actions={[
           <GitAuthed
             key={'git-authed'}
-            oauthClientId={process.env.REACT_APP_OAUTH_CLIENT_ID!}
+            oauthClientId={appConfig.oauthClientId}
             accessTokenData={accessTokenData}
             repositoryFilter={repositoryFilter}
           />,

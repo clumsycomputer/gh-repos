@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { appConfig } from 'lib/AppConfig'
 import { getAccessTokenData } from './utils/getAccessTokenData'
 import { useGetAccessToken } from './utils/useGetAccessToken'
 import { useGetUser } from './utils/useGetUser'
@@ -29,13 +30,15 @@ export const App = () => {
       localStorage.removeItem('accessToken')
     }
   }, [getUserState])
-  const accessTokenData = useMemo(() => {
-    return getAccessTokenData({
-      getAccessTokenState,
-      getUserState,
-      initialAccessToken,
-    })
-  }, [getAccessTokenState, getUserState, initialAccessToken])
+  const accessTokenData = useMemo(
+    () =>
+      getAccessTokenData({
+        getAccessTokenState,
+        getUserState,
+        initialAccessToken,
+      }),
+    [getAccessTokenState, getUserState, initialAccessToken]
+  )
   useEffect(() => {
     if (
       accessTokenData.type === 'localStorage-verify' ||
@@ -49,7 +52,7 @@ export const App = () => {
     }
   }, [accessTokenData, getUser, getUserState])
   return (
-    <BrowserRouter basename={process.env.REACT_APP_BASEPATH || ''}>
+    <BrowserRouter basename={appConfig.basePath}>
       <Switch>
         <Route path={'/auth'}>
           <AuthPage getAccessToken={getAccessToken} />

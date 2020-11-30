@@ -1,3 +1,4 @@
+import { appConfig } from 'lib/AppConfig'
 import { useAsyncState } from 'lib/hooks/useAsyncState'
 
 export interface GetAccessTokenApi {
@@ -15,7 +16,7 @@ const fetchAccessToken = (api: GetAccessTokenApi) => {
   const { authCode } = api
   return new Promise<GetAccessTokenResult>((resolve, reject) => {
     const getAccessToken: Promise<GetAccessTokenResult> = fetch(
-      `${process.env.REACT_APP_OAUTH_PROXY_URL}/authenticate/${authCode}`,
+      `${appConfig.oauthProxyUrl}/authenticate/${authCode}`,
       {
         method: 'GET',
         headers: {

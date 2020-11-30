@@ -15,7 +15,11 @@ interface AppPalette extends Palette {
 export const createAppTheme: () => AppTheme = () => {
   const baseTheme = createMuiTheme({
     palette: {
-      primary: { main: '#81819E' },
+      primary: {
+        dark: '#654E54',
+        main: '#81819E',
+        light: '#B6A0A6',
+      },
       error: { main: '#EE7F90' },
     },
   })

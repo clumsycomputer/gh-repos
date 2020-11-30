@@ -20,19 +20,24 @@ export type ListData =
 
 export const getListData = (api: ListDataApi): ListData => {
   const { getRepositoriesState } = api
-  if (getRepositoriesState.result?.page.items.length) {
+  if (
+    getRepositoriesState.type === 'success' &&
+    getRepositoriesState.result.page.items.length
+  ) {
     return {
       type: 'data',
       result: getRepositoriesState.result,
     }
   } else if (
-    getRepositoriesState.result?.page.items.length === 0 &&
-    isRepositoryFilterEmpty(getRepositoriesState.result?.filter)
+    getRepositoriesState.type === 'success' &&
+    getRepositoriesState.result.page.items.length === 0 &&
+    isRepositoryFilterEmpty(getRepositoriesState.result.filter)
   ) {
     return { type: 'emptyFilter' }
   } else if (
-    getRepositoriesState.result?.page.items.length === 0 &&
-    !isRepositoryFilterEmpty(getRepositoriesState.result?.filter)
+    getRepositoriesState.type === 'success' &&
+    getRepositoriesState.result.page.items.length === 0 &&
+    !isRepositoryFilterEmpty(getRepositoriesState.result.filter)
   ) {
     return { type: 'noResults' }
   } else if (getRepositoriesState.type === 'loading') {

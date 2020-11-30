@@ -61,12 +61,7 @@ interface ManagedAsyncState<AsyncResult> {
   value: AsyncState<AsyncResult>
 }
 
-export interface AsyncState<AsyncResult>
-  extends AsyncStateBase<StrictAsyncState<AsyncResult>['type']>,
-    Partial<Pick<SuccessAsyncState<AsyncResult>, 'result'>>,
-    Partial<Pick<ErrorAsyncState, 'errorMessage'>> {}
-
-type StrictAsyncState<AsyncResult> =
+export type AsyncState<AsyncResult> =
   | EmptyAsyncState
   | LoadingAsyncState
   | SuccessAsyncState<AsyncResult>
@@ -87,3 +82,9 @@ interface ErrorAsyncState extends AsyncStateBase<'error'> {
 interface AsyncStateBase<AsyncStateType extends string> {
   type: AsyncStateType
 }
+
+export type ExtractAsyncResultType<
+  SomeAsyncState
+> = SomeAsyncState extends SuccessAsyncState<infer SomeAsyncResult>
+  ? SomeAsyncResult
+  : never

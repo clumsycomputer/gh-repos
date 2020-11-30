@@ -1,5 +1,5 @@
-import { createStyles, makeStyles } from '@material-ui/core'
 import React, { ReactNode } from 'react'
+import { createStyles, makeStyles } from '@material-ui/core'
 
 export interface TitleBarProps {
   title: string
@@ -28,12 +28,14 @@ const useStyles = makeStyles(() =>
       flexBasis: 'auto',
       display: 'flex',
       flexDirection: 'row',
-      padding: '10px 10px 0 10px',
+      padding: 10,
+      marginBottom: 4,
     },
     titleContainer: {
       maxWidth: '75%',
       display: 'flex',
       flexDirection: 'column',
+      paddingTop: 4,
     },
     title: {
       fontSize: 20,
@@ -44,7 +46,7 @@ const useStyles = makeStyles(() =>
     },
     titleUnderline: {
       marginLeft: 14,
-      marginTop: 2,
+      marginTop: 5,
       width: '100%',
       height: 2,
       borderRadius: 2,
@@ -57,6 +59,7 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'flex-end',
+      alignItems: 'center',
     },
   })
 )

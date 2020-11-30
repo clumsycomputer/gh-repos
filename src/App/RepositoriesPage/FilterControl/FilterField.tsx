@@ -71,6 +71,9 @@ export const FilterField = (props: FilterFieldProps) => {
 const useStyles = makeStyles((theme: AppTheme) =>
   createStyles({
     filterLabel: {
+      '&::hover': {
+        borderBottomColor: 'blue',
+      },
       '& > label::after': {
         marginLeft: 8,
       },

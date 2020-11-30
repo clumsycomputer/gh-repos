@@ -1,18 +1,27 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { Page } from 'lib/components/Page'
 import { TitleBar } from 'lib/components/TitleBar'
 import { Repository } from 'lib/models/Repository'
-import { RepositoryFilter } from 'lib/models/RepositoryFilter'
+import {
+  RepositoryFilter,
+  serializeRepositoryFilter,
+  deserializeRepositoryFilter,
+} from 'lib/models/RepositoryFilter'
 import { useManageBodyScroll } from 'lib/hooks/useManageBodyScroll'
+import { AccessTokenData } from '../utils/getAccessTokenData'
 import { useGetRepositories } from './utils/useGetRepositories'
-import { serializeRepositoryFilter } from './utils/serializeRepositoryFilter'
-import { deserializeRepositoryFilter } from './utils/deserializeRepositoryFilter'
 import { FilterControl } from './FilterControl'
 import { RepositoryList } from './RepositoryList'
 import { RepositoryDialog } from './RepositoryDialog'
+import { GitAuthed } from './GitAuthed'
 
-export const RepositoriesPage = () => {
+export interface RepositoriesPageProps {
+  accessTokenData: AccessTokenData
+}
+
+export const RepositoriesPage = (props: RepositoriesPageProps) => {
+  const { accessTokenData } = props
   const history = useHistory()
   const location = useLocation()
   const initialRepositoryFilter = useMemo(
@@ -29,8 +38,22 @@ export const RepositoriesPage = () => {
   const [focusedRepository, setFocusedRepository] = useState<Repository | null>(
     null
   )
+  const accessTokenRef = useRef<string | undefined>()
   useEffect(() => {
-    getRepositories({ repositoryFilter })
+    if (
+      accessTokenData.type === 'localStorage-success' ||
+      accessTokenData.type === 'network-success'
+    ) {
+      accessTokenRef.current = accessTokenData.accessToken
+    } else {
+      accessTokenRef.current = undefined
+    }
+  }, [accessTokenData])
+  useEffect(() => {
+    getRepositories({
+      repositoryFilter,
+      accessToken: accessTokenRef.current,
+    })
   }, [repositoryFilter, getRepositories])
   useEffect(() => {
     const locationSearchString = new URLSearchParams(location.search).toString()
@@ -46,7 +69,17 @@ export const RepositoriesPage = () => {
   })
   return (
     <Page>
-      <TitleBar title={'Repositories'} />
+      <TitleBar
+        title={'gh-repos'}
+        actions={[
+          <GitAuthed
+            key={'git-authed'}
+            oauthClientId={process.env.REACT_APP_OAUTH_CLIENT_ID!}
+            accessTokenData={accessTokenData}
+            repositoryFilter={repositoryFilter}
+          />,
+        ]}
+      />
       <FilterControl
         repositoryFilter={repositoryFilter}
         setRepositoryFilter={setRepositoryFilter}

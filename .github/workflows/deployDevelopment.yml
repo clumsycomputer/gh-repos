@@ -12,13 +12,17 @@ jobs:
           node-version: '12'
       - run: yarn install
       - run: yarn add node-jq
-      - run: echo $(./node_modules/node-jq/bin/jq '.homepage = "https://clumsycomputer.github.io/_gh-repos-dev/"' package.json) > package.json
+      - run: echo $(./node_modules/node-jq/bin/jq '.homepage = "https://clumsycomputer.github.io/gh-repos-dev/"' package.json) > package.json
       - run: yarn build
+        env:
+          REACT_APP_BASEPATH: 'gh-repos-dev'
+          REACT_APP_OAUTH_CLIENT_ID: ${{ secrets.DEV_OAUTH_CLIENT_ID }}
+          REACT_APP_OAUTH_PROXY_URL: 'https://gh-repos-dev.herokuapp.com'
       - uses: cpina/github-action-push-to-another-repository@master
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_CD_TOKEN }}
         with:
           source-directory: 'build'
           destination-github-username: 'clumsycomputer'
-          destination-repository-name: '_gh-repos-dev'
+          destination-repository-name: 'gh-repos-dev'
           user-email: clumsycomputer@gmail.com

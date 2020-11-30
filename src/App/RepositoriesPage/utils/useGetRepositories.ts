@@ -5,6 +5,7 @@ import { RepositoryFilter } from 'lib/models/RepositoryFilter'
 
 export interface GetRepositoriesApi {
   repositoryFilter: RepositoryFilter
+  accessToken?: string
 }
 
 export interface GetRepositoriesResult {
@@ -17,7 +18,7 @@ export const useGetRepositories = () =>
 
 const fetchRepositories = (api: GetRepositoriesApi) => {
   return new Promise<GetRepositoriesResult>((resolve, reject) => {
-    const { repositoryFilter } = api
+    const { repositoryFilter, accessToken } = api
     const queryParameters = {
       q: `${repositoryFilter.keywords.reduce(
         (searchKeywords, someKeyword) => `${searchKeywords}${someKeyword} `,
@@ -53,13 +54,15 @@ const fetchRepositories = (api: GetRepositoriesApi) => {
       const githubSearchUrl = new URL(
         `https://api.github.com/search/repositories?${urlQueryString}`
       ).toString()
+      const fetchHeaders: { Accept: string; Authorization?: string } = {
+        Accept: 'application/vnd.github.v3+json',
+      }
+      if (accessToken) {
+        fetchHeaders['Authorization'] = `token ${accessToken}`
+      }
       fetch(githubSearchUrl, {
         method: 'GET',
-        headers: {
-          // todo: implement auth
-          // Authorization: `token ${process.env.REACT_APP_GITHUB_ACCESS_TOKEN}`,
-          Accept: 'application/vnd.github.v3+json',
-        },
+        headers: fetchHeaders as Record<string, string>,
       })
         .then((response) =>
           response.json().then((responseData) => ({

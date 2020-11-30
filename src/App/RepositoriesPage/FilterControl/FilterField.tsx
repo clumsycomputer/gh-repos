@@ -58,8 +58,8 @@ export const FilterField = (props: FilterFieldProps) => {
         }
         setRepositoryFilter({
           ...repositoryFilter,
-          [filterKey]: [...repositoryFilter[filterKey], massagedInputValue],
           page: 1,
+          [filterKey]: [...repositoryFilter[filterKey], massagedInputValue],
         })
         setInputValue('')
         setErrorMessage('')
@@ -71,6 +71,9 @@ export const FilterField = (props: FilterFieldProps) => {
 const useStyles = makeStyles((theme: AppTheme) =>
   createStyles({
     filterLabel: {
+      '&::hover': {
+        borderBottomColor: 'blue',
+      },
       '& > label::after': {
         marginLeft: 8,
       },

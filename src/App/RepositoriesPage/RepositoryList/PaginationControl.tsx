@@ -1,17 +1,18 @@
-import { Button, createStyles, makeStyles } from '@material-ui/core'
 import React from 'react'
-import { RepositoryListProps } from './RepositoryList'
+import { Button, createStyles, makeStyles } from '@material-ui/core'
 import NavigateNextIcon from '@material-ui/icons/NavigateNextRounded'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBeforeRounded'
+import { ExtractAsyncResultType } from 'lib/hooks/useAsyncState'
+import { RepositoryListProps } from './RepositoryList'
 
 export interface PaginationControlProps
   extends Omit<
     RepositoryListProps,
     'getRepositoriesState' | 'setFocusedRepository'
   > {
-  repositoryPage: Required<
+  repositoryPage: ExtractAsyncResultType<
     RepositoryListProps['getRepositoriesState']
-  >['result']['page']
+  >['page']
 }
 
 export const PaginationControl = (props: PaginationControlProps) => {

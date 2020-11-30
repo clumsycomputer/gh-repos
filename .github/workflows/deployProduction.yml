@@ -14,6 +14,12 @@ jobs:
         with:
           node-version: '12'
       - run: yarn install
+      - run: yarn add node-jq
+      - run: echo $(./node_modules/node-jq/bin/jq '.homepage = "https://clumsycomputer.github.io/gh-repos/"' package.json) > package.json
       - run: yarn build
+        env:
+          REACT_APP_BASEPATH: 'gh-repos'
+          REACT_APP_OAUTH_CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
+          REACT_APP_OAUTH_PROXY_URL: 'https://gh-repos-prod.herokuapp.com'
       - run: yarn add -D gh-pages
       - run: yarn gh-pages -d build

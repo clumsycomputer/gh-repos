@@ -1,12 +1,12 @@
 import React from 'react'
 import { RepositoryFilter } from 'lib/models/RepositoryFilter'
 import { SelectField } from 'lib/components/SelectField'
-import keywordDotUrl from 'assets/dots/keyword.png'
-import ownerDotUrl from 'assets/dots/owner.png'
-import languageDotUrl from 'assets/dots/language.png'
 import { FilterChips } from './FilterChips'
 import { createStyles, makeStyles, MenuItem } from '@material-ui/core'
 import { FilterField } from './FilterField'
+import keywordDotUrl from 'assets/dots/keyword.png'
+import ownerDotUrl from 'assets/dots/owner.png'
+import languageDotUrl from 'assets/dots/language.png'
 
 export interface FilterControlProps {
   repositoryFilter: RepositoryFilter
@@ -120,6 +120,9 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'flex-end',
+      '& svg': {
+        marginRight: 1,
+      },
     },
     sortByOption: {
       fontWeight: 300,

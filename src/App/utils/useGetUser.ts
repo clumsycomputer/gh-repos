@@ -29,7 +29,13 @@ const fetchAccessToken = (api: GetUserApi) => {
         }
         return Promise.resolve({})
       })
-      .catch(() => Promise.reject('Oops, something happened!'))
+      .catch((errorMessage) =>
+        Promise.reject(
+          typeof errorMessage === 'string'
+            ? errorMessage
+            : 'Oops, something happened!'
+        )
+      )
     setTimeout(() => {
       getUser.then(resolve).catch(reject)
     }, 1500)
